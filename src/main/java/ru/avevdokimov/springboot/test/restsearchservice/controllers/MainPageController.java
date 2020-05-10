@@ -3,6 +3,7 @@ package ru.avevdokimov.springboot.test.restsearchservice.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,10 @@ public class MainPageController {
 
     @Autowired
     private StringConvertor stringConvertor;
+
+    @Value("${executor.count}")
+    public int executCount;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
 
     @GetMapping
@@ -40,7 +45,7 @@ public class MainPageController {
                 baseHtmlPage.addEmptyLine(1);
             }
             Respons responsServer;
-            List<Params> listRespons = RequestTaskExecutor.getResultManyTask(tag, 2);
+            List<Params> listRespons = RequestTaskExecutor.getResultManyTask(tag, executCount);
             List<Answer> listAnswer = new ArrayList<>();
             long answered;
             for (int i = 0; i < listRespons.size(); i++) {
